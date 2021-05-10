@@ -15,7 +15,14 @@ module.exports = {
             }
         ],
         sidebar: [
-            ['/', '主页']
+            ['/', '主页'],
+            {
+                title: '课程章节',
+                collapsable: false,
+                children: [
+                    ['/ch0', '第0章 开发高质量的软件系统']
+                ]
+            }
         ],
         lastUpdated: 'Last Updated'
     }
