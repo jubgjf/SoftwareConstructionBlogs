@@ -9,18 +9,14 @@ module.exports = {
                 text: '外部导航',
                 items: [
                     {text: 'MIT 软件构造', link: 'http://web.mit.edu/6.031/www/fa20/'},
+                    {text: 'CMU 软件构造', link: 'https://www.cs.cmu.edu/~charlie/courses/17-214/2020-fall/'},
                     {text: 'Piazza', link: 'https://piazza.com/'}
                 ]
             }
         ],
         sidebar: [
-            {
-                title: '零散文章',
-                children: [
-                    ['/deploy_method', '博客部署方式']
-                ]
-            }
+            ['/', '主页']
         ],
-        lastUpdated: 'Last Updated',
+        lastUpdated: 'Last Updated'
     }
 }
