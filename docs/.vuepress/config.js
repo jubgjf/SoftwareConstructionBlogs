@@ -22,6 +22,13 @@ module.exports = {
                 children: [
                     ['/ch0', '第0章 开发高质量的软件系统']
                 ]
+            },
+            {
+                title: '实验',
+                collapsable: false,
+                children: [
+                    ['/lab1', '实验1 基础 Java 编程和测试']
+                ]
             }
         ],
         lastUpdated: 'Last Updated'
