@@ -1,15 +1,11 @@
 module.exports = {
     base: '/SoftwareConstructionBlogs/',
     title: 'Guan Jiannan 的软件构造博客',
-    markdown: {
-        extendMarkdown: md => {
-            md.use(require("markdown-it-katex"));
+    plugins: {
+        '@maginapp/vuepress-plugin-katex': {
+            delimiters: 'dollars'
         }
     },
-    head: [
-        ['link', {rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css'}],
-        ['link', {rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css'}]
-    ],
     theme: 'default-prefers-color-scheme',
     themeConfig: {
         nav: [
