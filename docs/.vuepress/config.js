@@ -36,6 +36,6 @@ module.exports = {
                 ]
             }
         ],
-        lastUpdated: 'Last Updated'
+        lastUpdated: '最后更新时间'
     }
 }
