@@ -207,3 +207,177 @@ P2 的 Problem 7: Convex hulls 是凸包问题，采用的思路如下：
 
 ![](images/lab1_convexhulls_result.png)
 
+## 命令行编译运行项目
+
+> 由于在编写代码时使用的是 IDEA 的一键运行功能，不能确定相同的代码在不同 IDE 下是否可以正常运行，所以学习了一下 Java 的命令行编译方法
+
+### 寻找命令
+
+在 IDEA 中运行 P1 的 MagicSquare 时，运行窗口输出如下：
+
+![](images/lab1_IDEA_run_magicsquare.png)
+
+可以看到第一行折叠的黄色命令就是编译时 IDEA 自动为我们输入的编译命令：
+
+```powershell
+C:\Users\guanj\.jdks\corretto-1.8.0_292\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA\lib\idea_rt.jar=51715:C:\Program Files\JetBrains\IntelliJ IDEA\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\charsets.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\access-bridge-64.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\cldrdata.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\dnsns.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\jaccess.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\jfxrt.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\localedata.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\nashorn.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\sunec.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\sunjce_provider.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\sunmscapi.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\sunpkcs11.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\ext\zipfs.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\jce.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\jfr.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\jfxswt.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\jsse.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\management-agent.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\resources.jar;C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\rt.jar;D:\Code\SoftwareConstruction\Lab-1\out\production\Lab-1;D:\Code\SoftwareConstruction\Lab-1\lib\junit-4.13.1.jar;D:\Code\SoftwareConstruction\Lab-1\lib\hamcrest-core-1.3.jar MagicSquare
+```
+
+直接复制上述命令到 powershell 中是可以运行成功的，但是这个命令里有太多绝对路径了。所以先简单学习一下 Java 命令行编译方法，再尝试修改绝对路径为相对路径
+
+### 命令行编译基础
+
+假设有如下代码：
+
+```java
+/**
+ * HelloWorld.java
+ */
+public class HelloWorld {
+    public static void main(String []args) {
+       System.out.println("Hello World");
+    }
+}
+```
+
+首先用 `javac` 将 `.java` 编译为 `.class`
+
+```powershell
+javac HelloWorld.java
+```
+
+再用 `java` 运行 `.class` 即可
+
+```powershell
+java HelloWorld
+```
+
+- `-classpath` 选项用于引入外部 jar 库，例如
+
+    > 需要注意的是，多个 jar 库需要用分号 `;` 间隔开
+    
+    ```powershell
+    javac -classpath "./lib/A.jar;./lib/B.jar" HelloWorld.java
+    ```
+
+- `-encoding` 选项用于指定文件编码，这里使用 `utf8`
+
+    ```powershell
+    javac -encoding utf8 HelloWorld.java
+    ```
+
+- `-d` 选项用于指定生成的 `.class` 文件的存放位置，例如
+
+    ```powershell
+    javac -d ./out HelloWorld.java
+    ```
+
+- `-javaagent` 选项是帮助开发人员进行运行、调试的。经测试不加此选项也可正常运行
+
+### 修改命令
+
+1. 命令中第一部分
+
+    ```powershell
+    C:\Users\guanj\.jdks\corretto-1.8.0_292\bin\java.exe
+    ```
+
+    本应该是运行 `.class` 的命令，观察原命令可发现其中的 `-classpath` 中有一个
+
+    ```
+    D:\Code\SoftwareConstruction\Lab-1\out\production\Lab-1
+    ```
+    
+    查看这个目录
+    
+    ![](images/lab1_IDEA_run_magicsquare_out.png)
+    
+    可知这里存放的就是 `.class` 文件。推测 IDEA 是将 `javac` 和 `java` 两个命令合并了
+
+2. 命令中第二部分
+
+    ```
+    -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA\lib\idea_rt.jar=51715:C:\Program Files\JetBrains\IntelliJ IDEA\bin
+    ```
+    
+    是 `-javaagent` 选项，可以删去
+
+3. 命令中第三部分
+
+    ```
+    -Dfile.encoding=UTF-8
+    ```
+    
+    是指定文件编码，这里我用
+    
+    ```
+    -encoding utf8
+    ```
+    
+    代替
+
+4. 命令中的第四部分
+
+    ```
+    -classpath C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\charsets.jar;...
+    ```
+    
+    是外部库，可以看到这些库都放在
+    
+    ```
+    C:\Users\guanj\.jdks\corretto-1.8.0_292\jre\lib\
+    ```
+    
+    之中。于是手动查找这些库，将它们复制到 `Lab1-1190200703/lib/` 中
+    
+    于是这部分可以改为
+    
+    ```
+    -classpath .\lib\charsets.jar;...
+    ```
+    
+    注意到刚才发现的 `javac` 和 `java` 命令合并的问题，所以拆分之后的两个 `-classpath` 如下
+    
+    ```
+    javac ... -classpath .\lib\charsets.jar;...
+    ```
+    
+    ```
+    java ... -classpath .\out;.\lib\charsets.jar;...
+    ```
+
+5. 综上，修改后的命令如下：
+
+    ```powershell
+    # P1.ps1
+    
+    mkdir out/P1
+    javac -classpath "./lib/charsets.jar;./lib/access-bridge-64.jar;./lib/cldrdata.jar;./lib/dnsns.jar;./lib/jaccess.jar;./lib/jfxrt.jar;./lib/localedata.jar;./lib/nashorn.jar;./lib/sunec.jar;./lib/sunjce_provider.jar;./lib/sunmscapi.jar;./lib/sunpkcs11.jar;./lib/zipfs.jar;./lib/jce.jar;./lib/jfr.jar;./lib/jfxswt.jar;./lib/jsse.jar;./lib/management-agent.jar;./lib/resources.jar;./lib/rt.jar;./lib/junit-4.13.1.jar;./lib/hamcrest-core-1.3.jar" ./src/P1/*.java ./src/P1/exception/*.java -encoding utf8 -d ./out/P1
+    java -classpath "./lib/charsets.jar;./lib/access-bridge-64.jar;./lib/cldrdata.jar;./lib/dnsns.jar;./lib/jaccess.jar;./lib/jfxrt.jar;./lib/localedata.jar;./lib/nashorn.jar;./lib/sunec.jar;./lib/sunjce_provider.jar;./lib/sunmscapi.jar;./lib/sunpkcs11.jar;./lib/zipfs.jar;./lib/jce.jar;./lib/jfr.jar;./lib/jfxswt.jar;./lib/jsse.jar;./lib/management-agent.jar;./lib/resources.jar;./lib/rt.jar;./lib/junit-4.13.1.jar;./lib/hamcrest-core-1.3.jar;./out/P1" MagicSquare
+    ```
+   
+    P2 和 P3 同理：
+
+    ```powershell
+    # P2.ps1
+    
+    mkdir out/P2
+    javac -classpath "./lib/charsets.jar;./lib/access-bridge-64.jar;./lib/cldrdata.jar;./lib/dnsns.jar;./lib/jaccess.jar;./lib/jfxrt.jar;./lib/localedata.jar;./lib/nashorn.jar;./lib/sunec.jar;./lib/sunjce_provider.jar;./lib/sunmscapi.jar;./lib/sunpkcs11.jar;./lib/zipfs.jar;./lib/jce.jar;./lib/jfr.jar;./lib/jfxswt.jar;./lib/jsse.jar;./lib/management-agent.jar;./lib/resources.jar;./lib/rt.jar;./lib/junit-4.13.1.jar;./lib/hamcrest-core-1.3.jar" ./src/P2/rules/*.java ./src/P2/turtle/*.java -encoding utf8 -d ./out/P2
+    java -classpath "./lib/charsets.jar;./lib/access-bridge-64.jar;./lib/cldrdata.jar;./lib/dnsns.jar;./lib/jaccess.jar;./lib/jfxrt.jar;./lib/localedata.jar;./lib/nashorn.jar;./lib/sunec.jar;./lib/sunjce_provider.jar;./lib/sunmscapi.jar;./lib/sunpkcs11.jar;./lib/zipfs.jar;./lib/jce.jar;./lib/jfr.jar;./lib/jfxswt.jar;./lib/jsse.jar;./lib/management-agent.jar;./lib/resources.jar;./lib/rt.jar;./lib/junit-4.13.1.jar;./lib/hamcrest-core-1.3.jar;./out/P2" turtle.TurtleSoup
+    ```
+
+    ```powershell
+    # P3.ps1
+    
+    mkdir out/P3
+    javac -classpath "./lib/charsets.jar;./lib/access-bridge-64.jar;./lib/cldrdata.jar;./lib/dnsns.jar;./lib/jaccess.jar;./lib/jfxrt.jar;./lib/localedata.jar;./lib/nashorn.jar;./lib/sunec.jar;./lib/sunjce_provider.jar;./lib/sunmscapi.jar;./lib/sunpkcs11.jar;./lib/zipfs.jar;./lib/jce.jar;./lib/jfr.jar;./lib/jfxswt.jar;./lib/jsse.jar;./lib/management-agent.jar;./lib/resources.jar;./lib/rt.jar;./lib/junit-4.13.1.jar;./lib/hamcrest-core-1.3.jar" ./src/P3/*.java ./src/P3/exception/*.java -encoding utf8 -d ./out/P3
+    java -classpath "./lib/charsets.jar;./lib/access-bridge-64.jar;./lib/cldrdata.jar;./lib/dnsns.jar;./lib/jaccess.jar;./lib/jfxrt.jar;./lib/localedata.jar;./lib/nashorn.jar;./lib/sunec.jar;./lib/sunjce_provider.jar;./lib/sunmscapi.jar;./lib/sunpkcs11.jar;./lib/zipfs.jar;./lib/jce.jar;./lib/jfr.jar;./lib/jfxswt.jar;./lib/jsse.jar;./lib/management-agent.jar;./lib/resources.jar;./lib/rt.jar;./lib/junit-4.13.1.jar;./lib/hamcrest-core-1.3.jar;./out/P3" Main
+    ```
+
+    用 powershell 执行脚本，即可运行程序
+
+    ![](images/lab1_cmd_run_turtle.png)
+
+> 费了好大劲做完这三个脚本之后发现，我的 Lab1 项目在 Eclipse 上可以完美运行
+> 
+> 可恶！:sob: :sob: :sob: 
