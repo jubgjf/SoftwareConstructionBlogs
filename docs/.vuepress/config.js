@@ -32,7 +32,8 @@ module.exports = {
                 title: '实验',
                 collapsable: false,
                 children: [
-                    ['/lab1', '实验1 基础 Java 编程和测试']
+                    ['/lab1', '实验1 基础 Java 编程和测试'],
+                    ['/lab2', '实验2 ADT 和 OOP'],
                 ]
             }
         ],
