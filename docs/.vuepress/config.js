@@ -25,7 +25,8 @@ module.exports = {
                 title: '课程章节',
                 collapsable: false,
                 children: [
-                    ['/ch0', '第0章 开发高质量的软件系统']
+                    ['/ch0', '第0章 开发高质量的软件系统'],
+                    ['/ch2', '第2章 软件测试与测试优先的编程']
                 ]
             },
             {
