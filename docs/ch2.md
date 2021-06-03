@@ -45,7 +45,7 @@
 
 ## 编写测试策略文档
 
-例子
+测试策略
 
 ```java
 /*
@@ -63,4 +63,15 @@
  * 
  * Exhaustive Cartesian coverage of partitions.
  */
+```
+
+测试方法注释
+
+```java
+// covers test.length() = 0,
+//        start = 0 = text.length(),
+//        text.length()-start = 0
+@Test public void testEmpty() {
+    assertEquals("", reverseEnd("", 0));
+}
 ```
