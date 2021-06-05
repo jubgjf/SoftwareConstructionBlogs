@@ -10,18 +10,18 @@
 
 - 创建者 creator
     - 创建一个该类型的新对象。一个创建者可能会接受一个对象作为参数，但是这个对象的类型不能是它创建对象对应的类型
-    - t* -> T
-    - 通常用构造函数实现，例如 `new ArrayList()`，但是有的构造体是静态方法（类方法），例如 `Arrays.asList()` 和 `String.valueOf`，这样的静态方法也称为***工厂方法***
+    - `t* -> T`
+    - 通常用构造函数实现，例如 `new ArrayList()`，但是有的构造体是静态方法（类方法），例如 `Arrays.asList()` 和 `String.valueOf`，这样的静态方法也称为 ***工厂方法***
 - 生产者 producer
     - 通过接受同类型的对象创建新的对象。例如，`String` 类里面的 `concat` 方法就是一个生产者，它接受两个字符串然后据此产生一个新的字符串
-    - T+, t* -> T
+    - `T+, t* -> T`
 - 观察者 observer
     - 接受一个同类型的对象然后返回一个不同类型的对象/值。例如 `List` 的 `size` 方法，它返回一个 `int`
-    - T+, t* -> t
+    - `T+, t* -> t`
 - 改造者 mutator
     - 改变对象的内容，例如 `List` 的 `add` 方法，它会在列表中添加一个元素
-    - T+, t* -> void | t | T
-    - 一个没有返回值的方法***一定有副作用***
+    - `T+, t* -> void | t | T`
+    - 一个没有返回值的方法 ***一定有副作用***
 
 > 其中 T 代表抽象类型本身；t 代表其他的类型；+ 代表这个参数可能出现一次或多次；* 代表这个参数可能出现零次或多次
 
@@ -139,9 +139,7 @@ public Tweet(String author, String text, Date timestamp) {
 
 ### 抽象函数
 
-$$
-AF: R \rightarrow A
-$$
+$$ AF: R \rightarrow A $$
 
 - 满射
     - 每一个 A 中元素都有对应的 R 元素，而且可能对应不止一个
@@ -150,9 +148,7 @@ $$
 
 ### 表示不变量
 
-$$
-RI: R \rightarrow boolean
-$$
+$$ RI: R \rightarrow boolean $$
 
 对于表示值 $r$，当且仅当 $r$ 被 $AF$ 映射到了 $A$，$RI(r)$ 为真
 
@@ -174,3 +170,28 @@ public class CharSet {
     ...
 }
 ```
+
+### 检查表示不变量
+
+- 示例
+
+    ```java
+    // Check that the rep invariant is true
+    // *** Warning: this does nothing unless you turn on assertion checking
+    // by passing -enableassertions to Java
+    private void checkRep() {
+        assert denominator > 0;
+        assert gcd(Math.abs(numerator), denominator) == 1;
+    }
+    ```
+
+- 使用原则：
+    - 在每一次创建或改变数据的操作之后都调用 `checkRep()`
+    - 在 `checkRep()` 中，应该显示检查某个变量的非空 `assert s != null`
+
+### RI 和 AF 的注释规范
+
+- 对于 RI
+    - 说明什么区域是合法的，以及什么使得这个区域合法/不合法
+- 对于 AF
+    - 说明抽象域表示了什么，并且明确说明一个输入和一个输出是怎么对应的
