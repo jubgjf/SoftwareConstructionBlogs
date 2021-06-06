@@ -6,6 +6,9 @@ module.exports = {
             delimiters: 'dollars'
         }
     },
+    markdown: {
+        lineNumbers: true
+    },
     theme: 'default-prefers-color-scheme',
     themeConfig: {
         nav: [
