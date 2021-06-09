@@ -207,3 +207,34 @@ public class Main {
 <p align="center">
     <img src="images/ch4_immut_example_3_15.png"/>
 </p>
+
+### 不可变类型
+
+不可变类型 | 可变类型
+:-: | :-:
+所有原始类型及其包装 |
+`java.time` | `Date`
+`List`, `ArrayList` | `Collections.unmodifiableList`
+`Set`, `HashSet` | `Collections.unmodifiableSet`
+`Map`, `HashMap` | `Collections.unmodifiableMap`
+
+虽然号称是不可变，但也仅仅是包装了一下可变的 `List`, `Set`, `Map`，不太靠谱，例如
+
+```java
+List<String> l = new ArrayList();
+List<String> ul = Collections.unmodifiableList(l);
+```
+
+此时两个列表都是空列表，如果
+
+```java
+ul.add("hello world");
+```
+
+确实会报错，但是如果
+
+```java
+l.add("hello world");
+```
+
+则不会报错。而且因为 `l` 和 `ul` 指向了同一个地址，所以 `ul` 也被改了
