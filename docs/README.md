@@ -1,4 +1,4 @@
-# :tada: 欢迎来到 Guan Jiannan 的软件构造博客
+# :tada: 欢迎来到 jubgjf 的软件构造博客
 
 ## :rocket: 博客部署方式
 

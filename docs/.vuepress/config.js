@@ -1,6 +1,6 @@
 module.exports = {
     base: '/SoftwareConstructionBlogs/',
-    title: 'Guan Jiannan 的软件构造博客',
+    title: 'jubgjf 的软件构造博客',
     plugins: {
         '@maginapp/vuepress-plugin-katex': {
             delimiters: 'dollars'
